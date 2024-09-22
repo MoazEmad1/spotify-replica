@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_DB: spotify
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: moaz
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  app:
+    image: moazemad/spotify-app:latest
+    container_name: spotify-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/spotify
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: moaz
+      SPRING_LIQUIBASE_CONTEXTS: dev
+      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 100MB
+      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 100MB
+      OKTA_OAUTH2_ISSUER: https://dev-7tsepwcmwmag7g8s.us.auth0.com/
+      OKTA_OAUTH2_CLIENT_ID: 947V44SBI3lpN3uw7EXnI3k6khvJDAdZ
+      OKTA_OAUTH2_CLIENT_SECRET: BjLnV5DQe0yQr8QIh5GJMIMEjkIl29zcTkl5V5mAcFLfoD7Of2--UHF_ydGUHG94
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
