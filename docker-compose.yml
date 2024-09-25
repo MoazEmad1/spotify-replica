@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: spotify
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: moaz
+      POSTGRES_PASSWORD: mypassword
     ports:
       - "5432:5432"
     volumes:
@@ -24,7 +24,7 @@ services:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/spotify
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: moaz
+      SPRING_DATASOURCE_PASSWORD: mypassword
       SPRING_LIQUIBASE_CONTEXTS: dev
       SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 100MB
       SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 100MB
